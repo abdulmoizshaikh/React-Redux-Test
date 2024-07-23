@@ -1,0 +1,5 @@
+#toast-container {
+  z-index: 10;
+  margin-top: 20px;
+  margin-right: 20px;
+}

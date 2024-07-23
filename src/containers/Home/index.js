@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalComp, SearchBox } from '../../components';
+import { ModalComp, SearchBox, ToastComp } from '../../components';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { UserActions } from '../../store/actions';
-import './index.css';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
-import Row from 'react-bootstrap/Row';
-import utils from '../../services/utils';
-import { NavLink } from 'react-bootstrap';
+import './styles.css';
+import RenderListItem from './RenderListItem';
 
 const Home = () => {
   const [modalShow, setModalShow] = useState(false);
+  const [showToast, setShowToast] = useState(false);
   const [activeUser, setActiveUser] = useState({});
 
   const dispatch = useDispatch();
-  const { users, isLoading } = useSelector((state) => state.User);
+  const { users, isLoading, error } = useSelector((state) => state.User);
 
   useEffect(() => {
     dispatch(UserActions.fetchGithubUsers());
   }, []);
+
+  useEffect(() => {
+    if (Boolean(error)) setShowToast(true);
+  }, [error]);
 
   const onSearch = (username) => {
     if (typeof username === 'string' && username.trim().length === 0) {
@@ -32,6 +33,10 @@ const Home = () => {
   const onClickListItem = (user) => {
     setModalShow(true);
     setActiveUser(user);
+  };
+
+  const onCloseToast = () => {
+    setShowToast(false);
   };
 
   return (
@@ -47,38 +52,13 @@ const Home = () => {
       ) : (
         <ListGroup>
           {users?.length
-            ? users.map((user, i) => {
-                return (
-                  <ListGroup.Item key={i}>
-                    <Row>
-                      <Col xs={6} md={4}>
-                        <Image
-                          src={user?.avatar_url}
-                          thumbnail
-                          width={100}
-                          height={100}
-                        />
-                      </Col>
-
-                      <Col xs={6} md={4} onClick={() => onClickListItem(user)}>
-                        <NavLink>
-                          <h5>{utils.capitalizeFirstLetter(user.login)}</h5>
-                        </NavLink>
-                      </Col>
-                      <Col xs={6} md={4}>
-                        {user.login && (
-                          <NavLink
-                            href={`https://github.com/${user.login}`}
-                            target="_blank"
-                          >
-                            GitHub Profile Link
-                          </NavLink>
-                        )}
-                      </Col>
-                    </Row>
-                  </ListGroup.Item>
-                );
-              })
+            ? users.map((user, i) => (
+                <RenderListItem
+                  key={i}
+                  user={user}
+                  onClickListItem={onClickListItem}
+                />
+              ))
             : null}
         </ListGroup>
       )}
@@ -88,6 +68,8 @@ const Home = () => {
         show={modalShow}
         onHide={() => setModalShow(false)}
       />
+
+      <ToastComp show={showToast} err={error} onCloseToast={onCloseToast} />
     </div>
   );
 };

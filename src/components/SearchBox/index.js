@@ -22,6 +22,7 @@ const SearchBox = ({ onSearch }) => {
         aria-label="Seach by username"
         aria-describedby="basic-addon2"
         onChange={onInputChange}
+        size="lg"
       />
     </InputGroup>
   );

@@ -2,6 +2,7 @@ import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Container from 'react-bootstrap/Container';
 import ModalRow from '../ModalRow';
+import utils from '../../services/utils';
 
 function ModalComp(props) {
   const { user } = props;
@@ -21,7 +22,10 @@ function ModalComp(props) {
       </Modal.Header>
       <Modal.Body>
         <Container>
-          <ModalRow name={'Name'} value={user.name || user.login} />
+          <ModalRow
+            name={'Name'}
+            value={utils.capitalizeFirstLetter(user?.login)}
+          />
           <ModalRow name={'Followers'} value={user?.followers} />
           <ModalRow name={'Location'} value={user?.location} />
           <ModalRow name={'Picture'} value={user?.avatar_url} isImage />

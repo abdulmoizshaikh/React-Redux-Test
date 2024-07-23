@@ -13,6 +13,7 @@ const SearchBox = ({ onSearch }) => {
   const onInputChange = useCallback((event) => {
     const value = event.target.value;
     onThrottleChange(value);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

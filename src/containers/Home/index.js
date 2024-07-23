@@ -16,6 +16,7 @@ const Home = () => {
 
   useEffect(() => {
     dispatch(UserActions.fetchGithubUsers());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

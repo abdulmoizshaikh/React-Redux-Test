@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { ModalComp, SearchBox, ToastComp } from '../../components';
+import { Loader, ModalComp, SearchBox, ToastComp } from '../../components';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { UserActions } from '../../store/actions';
 import './styles.css';
@@ -47,7 +47,7 @@ const Home = () => {
 
       {isLoading ? (
         <div className="center-align">
-          <p> Loading...</p>
+          <Loader />
         </div>
       ) : (
         <ListGroup>

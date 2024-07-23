@@ -9,7 +9,7 @@ const RenderListItem = (props) => {
   const { user, onClickListItem } = props;
   return (
     <ListGroup.Item>
-      <Row>
+      <Row className="align-items-center">
         <Col xs={6} md={4}>
           <Image src={user?.avatar_url} thumbnail width={100} height={100} />
         </Col>
